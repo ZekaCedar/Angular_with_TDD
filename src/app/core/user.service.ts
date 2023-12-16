@@ -8,12 +8,8 @@ export class UserService {
 
   constructor(private httpClient : HttpClient) { }
 
-  signUp(){
-    this.httpClient.post("/api/1.0/users", {
-      username: this.username,
-      email: this.email,
-      password: this.password
-    }).subscribe(() => {});
+  signUp(body:{username:string, email: string, password: string}){
+    return this.httpClient.post("/api/1.0/users", body)
   }
 
 }

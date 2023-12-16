@@ -1,5 +1,5 @@
-import { HttpClient } from '@angular/common/http';
 import { Component, OnInit } from '@angular/core';
+import { UserService } from '../core/user.service';
 
 @Component({
   selector: 'app-sign-up',
@@ -9,14 +9,14 @@ import { Component, OnInit } from '@angular/core';
 export class SignUpComponent implements OnInit {
   //property binding w html
   //disabled = true;
-  username ='';
-  email='';
+  username = '';
+  email = '';
   password = '';
   passwordRepeat = '';
   apiProgress = false;
   signUpSuccess = false;
 
-  constructor(private httpClient: HttpClient) {}
+  constructor(private userService: UserService) {}
 
   ngOnInit(): void {}
 
@@ -41,8 +41,19 @@ export class SignUpComponent implements OnInit {
     //this.disabled = this.password !== this.passwordRepeat;
   }
 
-  onClickSignup(){
+  onClickSignup() {
     this.apiProgress = true;
+
+    this.userService
+      .signUp({
+        username: this.username,
+        email: this.email,
+        password: this.password,
+      })
+      .subscribe(() => {
+        this.signUpSuccess = true;
+      });
+
     //console.log('clicked');
     // fetch("/api/1.0/users", {
     //   method:'POST',
@@ -52,17 +63,16 @@ export class SignUpComponent implements OnInit {
     //   }
     // })
 
-    this.httpClient.post("/api/1.0/users", {
-      username: this.username,
-      email: this.email,
-      password: this.password
-    }).subscribe(() => {
-      this.signUpSuccess = true;
-    });
-
+    // this.httpClient.post("/api/1.0/users", {
+    //   username: this.username,
+    //   email: this.email,
+    //   password: this.password
+    // }).subscribe(() => {
+    //   this.signUpSuccess = true;
+    // });
   }
 
-  isDisabled(){
+  isDisabled() {
     return this.password ? this.password !== this.passwordRepeat : true;
   }
 }
