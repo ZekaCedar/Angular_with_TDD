@@ -13,6 +13,8 @@ export class SignUpComponent implements OnInit {
   email='';
   password = '';
   passwordRepeat = '';
+  apiProgress = false;
+  signUpSuccess = false;
 
   constructor(private httpClient: HttpClient) {}
 
@@ -40,6 +42,7 @@ export class SignUpComponent implements OnInit {
   }
 
   onClickSignup(){
+    this.apiProgress = true;
     //console.log('clicked');
     // fetch("/api/1.0/users", {
     //   method:'POST',
@@ -53,7 +56,9 @@ export class SignUpComponent implements OnInit {
       username: this.username,
       email: this.email,
       password: this.password
-    }).subscribe(() => {});
+    }).subscribe(() => {
+      this.signUpSuccess = true;
+    });
 
   }
 

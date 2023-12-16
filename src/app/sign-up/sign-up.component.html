@@ -1,5 +1,7 @@
-<div class="col-lg-6 offset-lg-3 col-md-8 offset-md-2">
-  <div class="card">
+<div 
+  class="col-lg-6 offset-lg-3 col-md-8 offset-md-2"
+  *ngIf="!signUpSuccess; else successMessage">
+  <div class="card" data-testid="form-sign-up" >
     <div class="card-header text-center"><h1>Sign Up</h1></div>
     <form class="card-body" (submit)="onClickSignup(); $event.preventDefault()">
       <div class="mb-3">
@@ -37,8 +39,18 @@
         />
       </div>
       <div class="text-center">
-        <button class="btn btn-primary" [disabled]="isDisabled()">Sign Up</button>
+        <app-button
+          [disabled]="isDisabled()"
+          [apiProgress]="apiProgress"
+          >
+            Sign Up
+        </app-button>
       </div>
     </form>
   </div>
 </div>
+<ng-template #successMessage>
+  <!-- <app-alert text=" Please check your email to activate your account"></app-alert> -->
+  <app-alert>Please check your email to activate your account</app-alert>
+</ng-template>
+
